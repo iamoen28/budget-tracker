@@ -1,4 +1,7 @@
 import { useState } from 'react'
+//import balancecard
+import BalanceList from './components/BalanceList'
+
 //greeting component
 const Greeting = ({ name, timeofday }) => {
   return (
@@ -82,9 +85,25 @@ function Modal({ isOpen, onClose, children }) {
 const App = () => {
   //variables and state
   const name = 'Owen'
-  const exp_categories = ['Food', 'Transport', 'Entertainment', 'Other'] //soon will be connected to database
+  const categories = ['Food', 'Transport', 'Entertainment', 'Other'] //soon will be connected to database
   const inc_categories = ['Salary', 'Freelance', 'Investments', 'Other'] //soon will be connected to database
   const accountTypes = ['Cash', 'Card', 'Other'] //soon will be connected to database
+  const Accounts = [{
+    name: 'Cash',
+    balance: 500
+  }, {
+    name: 'Card',
+    balance: 500
+  }, {
+    name: 'Other',
+    balance: 0
+  },{name: 'Savings',
+    balance: 1000
+  },{
+    name: 'Investments',
+    balance: 2000
+  }]
+
   const [initialBalance, setCount] = useState(1000)
   const timeofday = datetime => {
     const hour = datetime.getHours()
@@ -96,7 +115,7 @@ const App = () => {
   //modal
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-
+  
   return (
     <div className="App">
       <section className="header">
@@ -118,7 +137,7 @@ const App = () => {
 
       <section className="card" id = "overview">
         <h2>Budget Overview</h2>
-        <p className='current-balance'>Current Balance: ${initialBalance.toFixed(2)}</p>
+        <BalanceList balances={(Accounts)} />
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2>Add Transaction</h2>
           <Form onAdd={(type, category, accountType, amount, description) => {
