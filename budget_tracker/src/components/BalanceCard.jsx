@@ -1,4 +1,5 @@
 //Balance Card Component
+import './BalanceCard.css'
 
 const BalanceCard = ({ balance, name }) => {
   return (

@@ -1,0 +1,7 @@
+/*balance card styling*/
+/*make it horizontally inline and scrollable*/
+.balance-card {
+    display: inline-block;
+    width: 200px;
+    margin-right: 20px;
+}
