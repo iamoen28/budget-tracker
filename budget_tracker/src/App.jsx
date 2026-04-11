@@ -55,18 +55,15 @@ const App = () => {
   const accountTypes = account.map(account => account.name) //get the account types from the account state, soon will be connected to database
 
   //dummy transaction data for the past 2 days, soon will be connected to database
-  const transactionData = [
-    { date: '2024-06-01', type: 'Income', amount: 1000 },
-    { date: '2024-06-02', type: 'Expense', amount: 200 },
-    { date: '2024-06-02', type: 'Expense', amount: 50 },
-  ]
-
+  const transactionData = []
+  const [transactiondata, setTransactiondata] = useState([0])
 
   //modal
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleAddTransaction = (type, category, accountType, amount, description) => {
-    console.log('New transaction added:', { type, category, accountType, amount, description })
+  const handleAddTransaction = (date, time, type, category, accountType, amount, description) => {
+    console.log('New transaction added:', { date, time, type, category, accountType, amount, description })
+    setTransactiondata(prev => [...prev, { date, time, type, category, accountType, amount, description }]) //add the new transaction to the transaction data state
     if (type === 'Income') {
       setAccounts(prev => prev.map((account, index) => {
         if (account.name === accountType) {
@@ -117,12 +114,16 @@ const App = () => {
         <h2>Transaction History</h2>
         <p>For the past 2 days</p>
         <ul>
-          {transactionData.map((tx, index) => (
+          {transactiondata.map((tx, index) => (
           <TransactionList
-            key={index} 
-            date={tx.date} 
-            type={tx.type} 
-            amount={tx.amount} 
+            key={index}
+            date={tx.date}
+            time={tx.time}
+            type={tx.type}
+            category={tx.category}
+            accountType={tx.accountType}
+            amount={tx.amount}
+            description={tx.description} 
           />
         ))}
         </ul>

@@ -16,7 +16,17 @@ const Dropdown = ({ options, value, onChange }) => (
 
 //create a form component for adding transactions, with dropdowns for type, category, and account type, and input fields for amount and description. It should handle form submission and call the onAdd function passed as a prop with the transaction details.
 const TransactionForm = ({ onAdd, categories, accountTypes }) => {
-
+  const [date, setDate] = useState(
+    new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
+);
+  const [time, setTime] = useState(
+    new Date().toLocaleTimeString('en-GB', {
+      timeZone: 'Asia/Manila',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    })
+  );
 
   const [type, setType] = useState('Income') //state for the type of transaction, default is income 
   //category should be based on the type, so if type is income, category should be based on the income categories, and if type is expense, category should be based on the expense categories. This will be implemented in the future when the categories are connected to the database.
@@ -33,29 +43,31 @@ const TransactionForm = ({ onAdd, categories, accountTypes }) => {
 
   const handleSubmit = (e) => {
       e.preventDefault() //prevent the default form submission behavior
-      onAdd(type, category, accountType, parseFloat(amount), description) //call the onAdd function passed as a prop with the transaction details
+      onAdd(date, time, type, category, accountType, parseFloat(amount), description) //call the onAdd function passed as a prop with the transaction details
       setAmount('') //reset the amount field to an empty string
       setDescription('') //reset the description field to an empty string
   }
 
   return (
       <form onSubmit={handleSubmit}>
-          <Dropdown options={['Income', 'Expense', 'Transfer']} value={type} onChange={handleTypeChange} />
-          <Dropdown options={categories[type]} value={category} onChange={(e) => setCategory(e.target.value)} />
-          <Dropdown options={accountTypes} value={accountType} onChange={(e) => setAccountType(e.target.value)} />
-          <input
-              type="number"
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-          />
-          <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-          />
-          <button type="submit">Add Transaction</button>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+        <Dropdown options={['Income', 'Expense', 'Transfer']} value={type} onChange={handleTypeChange} />
+        <Dropdown options={categories[type]} value={category} onChange={(e) => setCategory(e.target.value)} />
+        <Dropdown options={accountTypes} value={accountType} onChange={(e) => setAccountType(e.target.value)} />
+        <input
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+        />
+        <input
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+        />
+        <button type="submit">Add Transaction</button>
       </form>
   )
 

@@ -1,6 +1,8 @@
 //transaction history list item component
-const TransactionList = ({ date ,type, amount }) => (
-  <li>{date}: {type}: ${amount.toFixed(2)}</li>
+const TransactionList = ({ date, time, type, category, accountType, amount, description }) => (
+  <li>
+    {date} at {time}: {type} - {category} ({accountType}): ${parseFloat(amount).toFixed(2)} - {description}
+  </li>
 )
 
 export default TransactionList
