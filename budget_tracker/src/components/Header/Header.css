@@ -5,3 +5,24 @@
   padding: 20px;
   text-align: center;
 }
+
+/*design the asset card with the objects inside is displayed horizontally and the font of the amount is large and bold */
+.asset-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.asset-card p {
+    font-size: 36px;
+    font-weight: lighter;
+    margin: 0;
+}

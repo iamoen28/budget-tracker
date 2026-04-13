@@ -5,6 +5,7 @@ import BalanceList from './components/BalanceCard/BalanceList.jsx'
 import TransactionCard from './components/Transactions/TransactionCard.jsx'
 import TransactionsList from './components/Transactions/TransactionsList.jsx'
 import TransactionForm from './components/Transactions/TransactionForm.jsx'
+import AssetCard from './components/Header/AssetCard.jsx'
 
 
 //modal component, takes in isOpen and onClose props to control visibility and handle closing. It renders its children content when isOpen is true and provides an overlay that closes the modal when clicked outside of the modal content.
@@ -87,10 +88,7 @@ const App = () => {
   return (
     <div className="App">  
       <Header />  
-      <section className="card" id='assets'>
-        <h2>Assets</h2>
-        <BalanceCard balance={account.reduce((total, account) => total + account.balance, 0)} name="Total Balance" />
-      </section>
+      <AssetCard balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/}
       
       <section className="card" id = "overview">
         <h2>Accounts</h2>
