@@ -2,7 +2,8 @@ import { useState } from 'react'
 import Header from './components/Header/Header.jsx'
 import BalanceCard from './components/BalanceCard/BalanceCard.jsx'
 import BalanceList from './components/BalanceCard/BalanceList.jsx'
-import TransactionList from './components/Transactions/TransactionsList.jsx'
+import TransactionCard from './components/Transactions/TransactionCard.jsx'
+import TransactionsList from './components/Transactions/TransactionsList.jsx'
 import TransactionForm from './components/Transactions/TransactionForm.jsx'
 
 
@@ -56,7 +57,7 @@ const App = () => {
 
   //dummy transaction data for the past 2 days, soon will be connected to database
   const transactionData = []
-  const [transactiondata, setTransactiondata] = useState([0])
+  const [transactiondata, setTransactiondata] = useState([])
 
   //modal
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -113,20 +114,11 @@ const App = () => {
       <section className="card">
         <h2>Transaction History</h2>
         <p>For the past 2 days</p>
-        <ul>
-          {transactiondata.map((tx, index) => (
-          <TransactionList
-            key={index}
-            date={tx.date}
-            time={tx.time}
-            type={tx.type}
-            category={tx.category}
-            accountType={tx.accountType}
-            amount={tx.amount}
-            description={tx.description} 
-          />
-        ))}
-        </ul>
+
+        {/* check if there are transactions in the transaction data state, if there are, render the transaction list component for each transaction, if not, render a message saying there are no transactions yet. */}
+        {transactiondata.length > 0 && (
+        <TransactionsList transactions={transactiondata} />
+        )} 
       </section>
 
       <section className="card">

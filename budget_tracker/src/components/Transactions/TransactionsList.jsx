@@ -1,8 +1,24 @@
-//transaction history list item component
-const TransactionList = ({ date, time, type, category, accountType, amount, description }) => (
-  <li>
-    {date} at {time}: {type} - {category} ({accountType}): ${parseFloat(amount).toFixed(2)} - {description}
-  </li>
-)
+//TransactionList for every cards
+import React from 'react'
+import TransactionList from './TransactionCard.jsx'
 
-export default TransactionList
+const TransactionsList = ({ transactions }) => {
+  return (
+    <div className="transactions-list">
+      {transactions.map((transaction, index) => (
+        <TransactionList
+          key={index}
+          date={transaction.date}
+          time={transaction.time}
+          type={transaction.type}
+          category={transaction.category}
+          accountType={transaction.accountType}
+          amount={transaction.amount}
+          description={transaction.description}
+        />
+      ))}
+    </div>
+  )
+}
+
+export default TransactionsList
