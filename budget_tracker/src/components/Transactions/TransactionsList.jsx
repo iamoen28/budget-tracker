@@ -2,9 +2,14 @@
 import React from 'react'
 import TransactionList from './TransactionCard.jsx'
 
+//attach a click handler
+
+
 const TransactionsList = ({ transactions }) => {
+
   return (
     <div className="transactions-list">
+      
       {transactions.map((transaction, index) => (
         <TransactionList
           key={index}
