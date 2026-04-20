@@ -70,7 +70,6 @@ const TransactionForm = ({ onAdd, categories, accountTypes }) => {
         <button type="submit">Add Transaction</button>
       </form>
   )
-
 }
 
 export default TransactionForm

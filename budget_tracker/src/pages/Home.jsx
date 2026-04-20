@@ -26,13 +26,11 @@ function Modal({ isOpen, onClose, children }) {
 }
 
 
-
-
-
 function Home() {
   //variables and state
   console.log('Home component rendered')
   const name = 'Owen'
+  const currency = 'P'
   const transactiontype = {
     Income: ['Salary', 'Freelance', 'Investments', 'Other'],
     Expense: ['Food', 'Transport', 'Entertainment', 'Other']
@@ -79,7 +77,6 @@ function Home() {
     }
   }
 
-
   const handleTransactionClick = (transaction) => {
     console.log('Transaction clicked:', transaction)
   }
@@ -88,11 +85,27 @@ function Home() {
   return (
     <div className="Home">  
       <Header />  
-      <AssetCard balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/}
+
+      <section className="card">
+        <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <h2>Add Transaction</h2>
+
+            <TransactionForm 
+            onAdd={handleAddTransaction}
+            categories={transactiontype}
+            accountTypes={accountTypes}        
+            />  
+          </Modal>
+          
+          <button className="add-transaction-btn" onClick={() => setIsModalOpen(true)}>
+          Add Transaction
+        </button>
+      </section>
       
       <section className="card" id = "overview">
         <h2>Accounts</h2>
-        <BalanceList balances={(account)} />
+        <BalanceList currency={currency} balances={(account)} />
 
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2>Add Transaction</h2>
@@ -105,12 +118,17 @@ function Home() {
         </Modal>
         
         <button className="add-transaction-btn" onClick={() => setIsModalOpen(true)}>
-        Add Transaction
+        Add Account
       </button>
       </section>
       
       <section className="card">
-        <h2>Transaction History</h2>
+        <h2>Recent Transactions</h2>
+        <button onClick={() => console.log('View Transaction History button clicked')}>
+          View Transaction History
+        </button>
+
+
         <p>For the past 2 days</p>
 
         {/* check if there are transactions in the transaction data state, if there are, render the transaction list component for each transaction, if not, render a message saying there are no transactions yet. */}

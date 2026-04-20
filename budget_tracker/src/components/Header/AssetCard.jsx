@@ -1,9 +1,9 @@
 //The main card for the total amount of all the accounts
-const AssetCard = ({ balance }) => {
+const AssetCard = ({ balance, currency }) => {
   return (
     <div className="asset-card">
-        <h2>Total Assets</h2>
-        <p>${balance.toFixed(2)}</p>
+        <h2>Total Balance</h2>
+        <p>{currency}{balance.toFixed(2)}</p>
     </div>
   )
 }

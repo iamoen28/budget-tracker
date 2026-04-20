@@ -1,11 +1,11 @@
 //Balance Card Component
 import './BalanceCard.css'
 
-const BalanceCard = ({ balance, name }) => {
+const BalanceCard = ({ currency, balance, name }) => {
   return (
     <div className="balance-card">
-      <h3>{name}</h3>
-      <p>${balance.toFixed(2)}</p>
+      <p>{name}</p>
+      <p className='bal'>{currency}{balance.toFixed(2)}</p>
     </div>
   )
 }
