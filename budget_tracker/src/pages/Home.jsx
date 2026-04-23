@@ -8,6 +8,7 @@ import TransactionCard from '../components/Transactions/TransactionCard';
 import TransactionsList from '../components/Transactions/TransactionsList';
 import TransactionForm from '../components/Transactions/TransactionForm';
 import Header from '../components/Header/Header';
+import Button from '../components/Button/Button';
 
 //modal component, takes in isOpen and onClose props to control visibility and handle closing. It renders its children content when isOpen is true and provides an overlay that closes the modal when clicked outside of the modal content.
 function Modal({ isOpen, onClose, children }) {
@@ -55,6 +56,7 @@ function Home() {
   const accountTypes = account.map(account => account.name) //get the account types from the account state, soon will be connected to database
   const [transactiondata, setTransactiondata] = useState([]) //state for the transaction data, default is an empty array
   const [isModalOpen, setIsModalOpen] = useState(false) //state for the modal visibility, default is false
+  const [isaddaccountmodalopen, setIsAddAccountModalOpen] = useState(false) //state for the add account modal visibility, default is false
 
   const handleAddTransaction = (date, time, type, category, accountType, amount, description) => {
     console.log('New transaction added:', { date, time, type, category, accountType, amount, description })
@@ -81,45 +83,58 @@ function Home() {
     console.log('Transaction clicked:', transaction)
   }
 
+  //When the transaction card is clicked, it will pop a modal that shows the details of the transaction, and gives the option to edit or delete the transaction. This will be implemented in the future when the transaction history page is implemented.
+  const handleViewTransactionHistory = () => {
+    console.log('View Transaction History button clicked')
+  }
+
+
+
+
 
   return (
     <div className="Home">  
       <Header />  
 
       <section className="card">
-        <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/}
+        <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/} 
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <h2>Add Transaction</h2>
-
-            <TransactionForm 
-            onAdd={handleAddTransaction}
-            categories={transactiontype}
-            accountTypes={accountTypes}        
-            />  
-          </Modal>
-          
-          <button className="add-transaction-btn" onClick={() => setIsModalOpen(true)}>
+          <h2>Add Transaction</h2>
+          <TransactionForm onAdd={handleAddTransaction} categories={transactiontype} accountTypes={accountTypes} />
+           
+        </Modal>
+        
+        <Button onClick={() => setIsModalOpen(true)}>
           Add Transaction
-        </button>
+        </Button>
       </section>
       
       <section className="card" id = "overview">
         <h2>Accounts</h2>
         <BalanceList currency={currency} balances={(account)} />
-
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2>Add Transaction</h2>
-
-          <TransactionForm 
-          onAdd={handleAddTransaction}
-          categories={transactiontype}
-          accountTypes={accountTypes}        
-          />  
+        <Modal isOpen={isaddaccountmodalopen} onClose={() => setIsAddAccountModalOpen(false)}>
+          <h2>Add Account</h2>
+          
+          <input type="text" placeholder="Account Name" />
+          <input type="number" placeholder="Initial Balance" />
+          <Button onClick={() => 
+            //add account to the account state, get the values from the input fields, and close the modal
+              {
+                const accountName = document.querySelector('.modal input[type="text"]').value
+                const initialBalance = parseFloat(document.querySelector('.modal input[type="number"]').value)
+                setAccounts(prev => [...prev, { name: accountName, balance: initialBalance }])
+                setIsAddAccountModalOpen(false)
+              }
+            }>Add Account
+            
+            </Button> 
+           
         </Modal>
         
-        <button className="add-transaction-btn" onClick={() => setIsModalOpen(true)}>
-        Add Account
-      </button>
+        <Button onClick={() => setIsAddAccountModalOpen(true)}>
+          Add Account
+        </Button>
+        
       </section>
       
       <section className="card">

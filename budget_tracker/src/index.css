@@ -82,15 +82,6 @@ nav {
     border-radius: 4px;
 }
 
-/*design the add transaction button*/
-.add-transaction-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 /*design the overview id, inherit the style from card but center the add transaction button*/
 #overview {
