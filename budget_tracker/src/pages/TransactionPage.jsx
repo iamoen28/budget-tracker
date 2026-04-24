@@ -1,8 +1,11 @@
 //transactionhistory page
 import React from 'react'
-import TransactionList from '../components/Transactions/TransactionCard';
+import TransactionList from '../components/features/transactions/components/TransactionCard';
 import Header from '../components/Header/Header';
 
+
+
+//transaction tile show dollar sign instead of peso
 function TransactionPage() {
   return (
     <div className="transaction-page">

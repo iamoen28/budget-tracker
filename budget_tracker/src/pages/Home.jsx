@@ -4,27 +4,13 @@ import { useState } from 'react'
 import BalanceCard from '../components/BalanceCard/BalanceCard';
 import BalanceList from '../components/BalanceCard/BalanceList';
 import AssetCard from '../components/Header/AssetCard';
-import TransactionCard from '../components/Transactions/TransactionCard';
-import TransactionsList from '../components/Transactions/TransactionsList';
-import TransactionForm from '../components/Transactions/TransactionForm';
+import TransactionCard from '../components/features/transactions/components/TransactionCard';
+import TransactionsList from '../components/features/transactions/components/TransactionsList';
+import TransactionForm from '../components/features/transactions/components/TransactionForm';
 import Header from '../components/Header/Header';
 import Button from '../components/Button/Button';
+import Modal from '../components/Modal/Modal';
 
-//modal component, takes in isOpen and onClose props to control visibility and handle closing. It renders its children content when isOpen is true and provides an overlay that closes the modal when clicked outside of the modal content.
-function Modal({ isOpen, onClose, children }) {
-  if (!isOpen) return null;
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        {children}
-        <button className="close-button" onClick={onClose}>
-          &times;
-        </button>
-      </div>
-    </div>
-  );
-}
 
 
 function Home() {
