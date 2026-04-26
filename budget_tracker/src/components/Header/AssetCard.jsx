@@ -3,7 +3,8 @@ const AssetCard = ({ balance, currency }) => {
   return (
     <div className="asset-card">
         <h2>Total Balance</h2>
-        <p>{currency}{balance.toFixed(2)}</p>
+        
+        <p>{currency}{balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
     </div>
   )
 }

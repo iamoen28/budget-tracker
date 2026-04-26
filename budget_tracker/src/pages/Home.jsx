@@ -18,10 +18,7 @@ function Home() {
   console.log('Home component rendered')
   const name = 'Owen'
   const currency = 'P'
-  const transactiontype = {
-    Income: ['Salary', 'Freelance', 'Investments', 'Other'],
-    Expense: ['Food', 'Transport', 'Entertainment', 'Other']
-  }
+
 
   const [account,setAccounts] = useState([{
       name: 'Cash',
@@ -39,6 +36,13 @@ function Home() {
       balance: 2000
     }])
 
+    const transactiontype = {
+    Income: ['Salary', 'Freelance', 'Investments', 'Other'],
+    Expense: ['Food', 'Transport', 'Entertainment', 'Other'],
+    //get the account names to put it into dropdown
+    Transfer: account.map(account => account.name)
+  }
+
   const accountTypes = account.map(account => account.name) //get the account types from the account state, soon will be connected to database
   const [transactiondata, setTransactiondata] = useState([]) //state for the transaction data, default is an empty array
   const [isModalOpen, setIsModalOpen] = useState(false) //state for the modal visibility, default is false
@@ -54,7 +58,7 @@ function Home() {
         }
         return account
       }))
-    } else {
+    } else if (type === 'Expense') {
       console.log('Adding expense:', amount)
       setAccounts(prev => prev.map((account, index) => {
         if (account.name === accountType) {
@@ -62,7 +66,19 @@ function Home() {
         }
         return account
       }))
+    } else if (type === 'Transfer') {
+      console.log('Adding transfer:', amount)
+      const [fromAccount, toAccount] = category.split(' to ')
+      setAccounts(prev => prev.map((account, index) => {
+        if (account.name === category) {
+          return { ...account, balance: account.balance - amount }
+        } else if (account.name === accountType) {
+          return { ...account, balance: account.balance + amount }
+        }
+        return account
+      }))
     }
+
   }
 
   const handleTransactionClick = (transaction) => {
