@@ -7,10 +7,12 @@ import SettingsPage from './pages/SettingsPage.jsx'
 import useBudgetData from './hooks/useBudgetData.js'
 
 const App = () => {
-  const [location, setLocation] = useState(`${window.location.pathname}${window.location.search}`)
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const routeFromPath = pathname => pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname
+  const [location, setLocation] = useState(`${routeFromPath(window.location.pathname)}${window.location.search}`)
   const budget = useBudgetData()
   const navigate = nextPath => {
-    window.history.pushState({}, '', nextPath)
+    window.history.pushState({}, '', `${basePath}${nextPath}`)
     setLocation(nextPath)
   }
 
