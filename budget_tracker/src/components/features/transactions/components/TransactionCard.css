@@ -1,0 +1,50 @@
+.transaction-tile {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px 0;
+}
+
+.transaction-icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 10px;
+    background: #e7edf5;
+    color: #172b4d;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.transaction-details {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.transaction-details strong,
+.transaction-details span,
+.transaction-details time {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transaction-details strong { color: #1f2933; }
+.transaction-details span,
+.transaction-details time { color: #6b7280; font-size: 0.82rem; }
+.transaction-amount { color: #172b4d; white-space: nowrap; }
+
+.transaction-income .transaction-icon { background: #e2f2e8; color: #287a58; }
+.transaction-income .transaction-amount { color: #287a58; }
+.transaction-expense .transaction-icon { background: #fbe7e2; color: #c2412d; }
+.transaction-expense .transaction-amount { color: #c2412d; }
+
+@media (max-width: 480px) {
+    .transaction-tile { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; }
+    .transaction-icon { width: 32px; height: 32px; }
+    .transaction-amount { grid-column: 2; }
+}

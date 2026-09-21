@@ -1,185 +1,151 @@
-//This will be the home page for the budget tracker application
-import React from 'react'
 import { useState } from 'react'
-import BalanceCard from '../components/BalanceCard/BalanceCard';
-import BalanceList from '../components/BalanceCard/BalanceList';
-import AssetCard from '../components/Header/AssetCard';
-import TransactionCard from '../components/features/transactions/components/TransactionCard';
-import TransactionsList from '../components/features/transactions/components/TransactionsList';
-import TransactionForm from '../components/features/transactions/components/TransactionForm';
-import Header from '../components/Header/Header';
-import Button from '../components/Button/Button';
-import Modal from '../components/Modal/Modal';
-import TransactionViewer from '../components/features/transactions/components/TransactionViewer';
+import BalanceList from '../components/BalanceCard/BalanceList'
+import AssetCard from '../components/Header/AssetCard'
+import TransactionsList from '../components/features/transactions/components/TransactionsList'
+import TransactionForm from '../components/features/transactions/components/TransactionForm'
+import Header from '../components/Header/Header'
+import Button from '../components/Button/Button'
+import Modal from '../components/Modal/Modal'
+import { calculateBudgetSpent } from '../data/budgetLedger.js'
 import './Home.css'
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/Navbar/Navbar'
 
-
-function Home() {
-  //variables and state
-  console.log('Home component rendered')
-  const name = 'Owen'
-  const currency = 'P'
-
-
-  const [account,setAccounts] = useState([{
-      name: 'Cash',
-      balance: 500
-    }, {
-      name: 'Card',
-      balance: 500
-    }, {
-      name: 'Other',
-      balance: 90
-    },{name: 'Savings',
-      balance: 1000
-    },{
-      name: 'Investments',
-      balance: 2000
-    }])
-
-    const transactiontype = {
-    Income: ['Salary', 'Freelance', 'Investments', 'Other'],
-    Expense: ['Food', 'Transport', 'Entertainment', 'Other'],
-    //get the account names to put it into dropdown
-    Transfer: account.map(account => account.name)
-  }
-
-  const accountTypes = account.map(account => account.name) //get the account types from the account state, soon will be connected to database
-  const [transactiondata, setTransactiondata] = useState([]) //state for the transaction data, default is an empty array
-  const [isModalOpen, setIsModalOpen] = useState(false) //state for the modal visibility, default is false
-  const [isaddaccountmodalopen, setIsAddAccountModalOpen] = useState(false) //state for the add account modal visibility, default is false
-
-  const handleAddTransaction = (date, time, type, category, accountType, amount, description) => {
-    console.log('New transaction added:', { date, time, type, category, accountType, amount, description })
-    setTransactiondata(prev => [...prev, { date, time, type, category, accountType, amount, description }]) //add the new transaction to the transaction data state
-    if (type === 'Income') {
-      setAccounts(prev => prev.map((account, index) => {
-        if (account.name === accountType) {
-          return { ...account, balance: account.balance + amount }
-        }
-        return account
-      }))
-    } else if (type === 'Expense') {
-      console.log('Adding expense:', amount)
-      setAccounts(prev => prev.map((account, index) => {
-        if (account.name === accountType) {
-          return { ...account, balance: account.balance - amount }
-        }
-        return account
-      }))
-    } else if (type === 'Transfer') {
-      console.log('Adding transfer:', amount)
-      const [fromAccount, toAccount] = category.split(' to ')
-      setAccounts(prev => prev.map((account, index) => {
-        if (account.name === category) {
-          return { ...account, balance: account.balance - amount }
-        } else if (account.name === accountType) {
-          return { ...account, balance: account.balance + amount }
-        }
-        return account
-      }))
+function Home({ accounts, transactions, addAccount, addTransaction, categories, currency, currentMonth, budgets, goals, onNavigate }) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isBalanceVisible, setIsBalanceVisible] = useState(() => {
+    try {
+      return window.localStorage.getItem('budget-tracker-balance-visible') !== 'false'
+    } catch {
+      return true
     }
+  })
+  const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState(false)
+  const [newAccountName, setNewAccountName] = useState('')
+  const [newAccountBalance, setNewAccountBalance] = useState('')
+  const [accountError, setAccountError] = useState('')
 
+  const handleAddAccount = event => {
+    event.preventDefault()
+    const error = addAccount(newAccountName, Number(newAccountBalance))
+    if (error) {
+      setAccountError(error)
+      return
+    }
+    setNewAccountName('')
+    setNewAccountBalance('')
+    setAccountError('')
+    setIsAddAccountModalOpen(false)
   }
 
-  const handleTransactionClick = (transaction) => {
-    console.log('Transaction clicked:', transaction)
+  const toggleBalanceVisibility = () => {
+    setIsBalanceVisible(previous => {
+      const nextValue = !previous
+      try {
+        window.localStorage.setItem('budget-tracker-balance-visible', String(nextValue))
+      } catch {
+        // The preference can remain in memory when storage is unavailable.
+      }
+      return nextValue
+    })
   }
 
-  //When the transaction card is clicked, it will pop a modal that shows the details of the transaction, and gives the option to edit or delete the transaction. This will be implemented in the future when the transaction history page is implemented.
-  const handleViewTransactionHistory = () => {
-    console.log('View Transaction History button clicked')
-  }
-
-
-
-
+  const totalBalance = accounts.reduce((total, account) => total + account.balance, 0)
+  const currentMonthKey = new Date().toISOString().slice(0, 7)
+  const activeBudgets = budgets.filter(budget => budget.month === currentMonthKey).slice(0, 3).map(budget => ({
+    ...budget,
+    spent: calculateBudgetSpent(transactions, budget)
+  }))
+  const formatAmount = value => `${currency} ${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
   return (
-    <div className="Home"> 
-    
-      <div className="nav-panel">
-        <Navbar />
-      </div>
+    <div className="Home">
+      <div className="nav-panel"><Navbar onNavigate={onNavigate} /></div>
+      <main className="home-main">
+        <Header />
+        <div className="dashboard-content">
 
-      <div className="welcome-header">
-            <Header />
-      </div>
-      
       <div className="asset-panel">
         <section className="card">
-          <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} > {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/} 
+          <AssetCard currency={`${currency} `} balance={totalBalance} isVisible={isBalanceVisible} onToggleVisibility={toggleBalanceVisibility}>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
               <h2>Add Transaction</h2>
-              <TransactionForm onAdd={handleAddTransaction} categories={transactiontype} accountTypes={accountTypes} />
-              
+              <TransactionForm onAdd={addTransaction} categories={categories} accounts={accounts} />
             </Modal>
-            
-            <Button onClick={() => setIsModalOpen(true)}>
-              +
-            </Button>
+            <Button ariaLabel="Add transaction" onClick={() => setIsModalOpen(true)}>+</Button>
           </AssetCard>
         </section>
       </div>
-        
+
+      <section className="quick-stats" aria-label="Monthly summary">
+        <div className="quick-stat"><span>Monthly income</span><strong className="stat-positive">{formatAmount(currentMonth.income)}</strong><small>This month</small></div>
+        <div className="quick-stat"><span>Monthly expenses</span><strong className="stat-negative">{formatAmount(currentMonth.expenses)}</strong><small>This month</small></div>
+        <div className="quick-stat"><span>Monthly net</span><strong className={currentMonth.net >= 0 ? 'stat-positive' : 'stat-negative'}>{formatAmount(currentMonth.net)}</strong><small>{transactions.length} total transaction{transactions.length === 1 ? '' : 's'}</small></div>
+      </section>
+
       <div className="account-panel">
-        <section className="card" id = "overview">
-          <h2>Accounts</h2>
-          <BalanceList currency={currency} balances={(account)} >
-            <Modal isOpen={isaddaccountmodalopen} onClose={() => setIsAddAccountModalOpen(false)}>
-              <h2>Add Account</h2>
-              
-              <input type="text" placeholder="Account Name" />
-              <input type="number" placeholder="Initial Balance" />
-              <Button onClick={() => 
-                //add account to the account state, get the values from the input fields, and close the modal
-                  {
-                    const accountName = document.querySelector('.modal input[type="text"]').value
-                    const initialBalance = parseFloat(document.querySelector('.modal input[type="number"]').value)
-                    setAccounts(prev => [...prev, { name: accountName, balance: initialBalance }])
-                    setIsAddAccountModalOpen(false)
-                  }
-                }>Add Account
-                
-                </Button> 
-              
-            </Modal>
-            <div id = 'new-account' className='balance-card' onClick={() => setIsAddAccountModalOpen(true)}>
-              <p className='name'>Add new</p>
-              <p className='bal'>Account</p>
+        <section className="card" id="overview">
+          <div className="account-section-heading">
+            <div>
+              <h2>Accounts</h2>
+              <p>{accounts.length} account{accounts.length === 1 ? '' : 's'}</p>
             </div>
+            <button type="button" className="section-link" onClick={() => onNavigate('/accounts')}>View all</button>
+          </div>
+          <BalanceList currency={`${currency} `} balances={accounts} onAccountClick={account => onNavigate(`/transactions?account=${encodeURIComponent(account.id)}`)}>
+            <Modal isOpen={isAddAccountModalOpen} onClose={() => setIsAddAccountModalOpen(false)}>
+              <h2>Add Account</h2>
+              <form onSubmit={handleAddAccount}>
+                <input type="text" placeholder="Account Name" value={newAccountName} onChange={event => setNewAccountName(event.target.value)} />
+                <input type="number" min="0" step="0.01" placeholder="Initial Balance" value={newAccountBalance} onChange={event => setNewAccountBalance(event.target.value)} />
+                {accountError && <p role="alert">{accountError}</p>}
+                <Button type="submit">Add Account</Button>
+              </form>
+            </Modal>
+            <button id="new-account" className="balance-card" type="button" aria-label="Add a new account" onClick={() => setIsAddAccountModalOpen(true)}>
+              <span className="account-card-mark" aria-hidden="true">+</span>
+              <p className="name">Add new</p>
+              <p className="bal">Account</p>
+            </button>
           </BalanceList>
         </section>
       </div>
-        
-        
+
       <div className="insights-panel">
         <section className="card">
           <h2>Budget Insights</h2>
-          <p>You have a positive balance. Keep it up!</p>
+          <div className="home-summary-grid">
+            <p><span>Income</span><strong>{currency} {currentMonth.income.toFixed(2)}</strong></p>
+            <p><span>Expenses</span><strong>{currency} {currentMonth.expenses.toFixed(2)}</strong></p>
+            <p><span>Net</span><strong>{currency} {currentMonth.net.toFixed(2)}</strong></p>
+          </div>
+          <p>{transactions.length ? `${transactions.length} transaction${transactions.length === 1 ? '' : 's'} recorded.` : 'No transactions recorded yet.'}</p>
         </section>
       </div>
 
-        <div className='transaction-history'>
-          <section className="card">
-            <h2>Recent Transactions</h2>
-            <button onClick={() => console.log('View Transaction History button clicked')}>
-              View Transaction History
-            </button>
-
-            {/* check if there are transactions in the transaction data state, if there are, render the transaction list component for each transaction, if not, render a message saying there are no transactions yet. */}
-            {transactiondata.length === 0 ? (
-              <p>No transactions yet. Start adding some!</p>
-            ) : (
-              <TransactionsList transactions={transactiondata} currency={currency}/>
-            )}
-          </section>
+      <section className="planning-panel card">
+        <div className="section-heading">
+          <div><h2>Plan at a glance</h2><p>Current budgets and savings goals.</p></div>
+          <button type="button" onClick={() => onNavigate('/insights')}>View insights</button>
         </div>
-       
-      </div>
+        <div className="planning-grid">
+          <div className="planning-column"><h3>Budgets</h3>{activeBudgets.length ? activeBudgets.map(budget => <div className="planning-item" key={budget.id}><span>{budget.category}</span><strong>{formatAmount(budget.spent)} / {formatAmount(budget.limit)}</strong><progress value={budget.spent} max={budget.limit} /></div>) : <p>No budgets for this month.</p>}</div>
+          <div className="planning-column"><h3>Savings goals</h3>{goals.length ? goals.slice(0, 3).map(goal => <div className="planning-item" key={goal.id}><span>{goal.name}</span><strong>{formatAmount(goal.currentAmount)} / {formatAmount(goal.targetAmount)}</strong><progress value={goal.currentAmount} max={goal.targetAmount} /></div>) : <p>No savings goals yet.</p>}</div>
+        </div>
+      </section>
 
+      <div className="transaction-history">
+        <section className="card">
+          <div className="section-heading">
+            <h2>Recent Transactions</h2>
+            <button type="button" onClick={() => onNavigate('/transactions')}>View all</button>
+          </div>
+          {transactions.length === 0 ? <p>No transactions yet. Start adding some!</p> : <TransactionsList transactions={transactions.slice(-5).reverse()} currency={`${currency} `} accounts={accounts} />}
+        </section>
+      </div>
+        </div>
+      </main>
+    </div>
   )
 }
 
-export default Home;
+export default Home

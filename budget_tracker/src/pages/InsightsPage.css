@@ -1,0 +1,24 @@
+.insight-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+.simple-page-layout .nav-panel { position: sticky; top: 0; align-self: start; height: 100vh; background: #172b4d; }
+.insight-grid h2 { margin: 0 0 12px; color: #6b7280; font-size: .95rem; }
+.insight-grid strong { color: #172b4d; font-size: 1.45rem; }
+.insight-grid .positive { color: #287a58; }
+.insight-grid .negative { color: #c2412d; }
+.insight-summary h2 { margin-top: 0; }
+.progress-section { margin-top: 16px; }
+.progress-section h2 { margin-top: 0; }
+.progress-item { display: grid; gap: 8px; margin-top: 14px; }
+.progress-item > div { display: flex; justify-content: space-between; gap: 12px; color: #6b7280; font-size: .9rem; }
+.progress-item strong { color: #172b4d; white-space: nowrap; }
+.progress-item progress { width: 100%; height: 10px; accent-color: #f06445; }
+.month-control { display: grid; gap: 4px; color: #6b7280; font-size: .85rem; font-weight: 700; }
+.month-control input { min-height: 40px; padding: 8px 10px; border: 1px solid #e7e1d8; border-radius: 7px; background: #fffaf2; color: #1f2933; }
+.status-pill { display: inline-block; margin-left: 6px; padding: 2px 7px; border-radius: 999px; font-size: .72rem; font-style: normal; font-weight: 700; }
+.status-ok { color: #287a58; background: #e2f2e8; }
+.status-near { color: #9a6700; background: #fff0c2; }
+.status-over { color: #c2412d; background: #fbe7e2; }
+.status-progress { color: #172b4d; background: #e7edf5; }
+.progress-item progress.status-near { accent-color: #d99a16; }
+.progress-item progress.status-over { accent-color: #c2412d; }
+.progress-item progress.status-ok { accent-color: #287a58; }
+@media (max-width: 760px) { .simple-page-layout .nav-panel { position: static; height: auto; background: transparent; } .insight-grid { grid-template-columns: 1fr; } }

@@ -2,16 +2,17 @@
 import BalanceCard from './BalanceCard.jsx'
 
 
-const BalanceList = ({ currency, balances, children }) => {
+const BalanceList = ({ currency, balances, children, onAccountClick }) => {
   return (
     <div className="balance-list"> 
     {children}
-      {balances.map((account, index) => (
+      {balances.map((account) => (
         <BalanceCard
-          key={index}
+          key={account.id}
           currency={currency}
           balance={account.balance}
           name={account.name}
+          onClick={() => onAccountClick?.(account)}
         />
       ))}
         

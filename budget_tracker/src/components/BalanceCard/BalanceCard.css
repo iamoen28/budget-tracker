@@ -1,11 +1,32 @@
 .balance-card {
-    flex: 0 0 150px;
-    min-height: 104px;
-    padding: 16px;
+    appearance: none;
     border: 1px solid #e7e1d8;
+    font: inherit;
+    text-align: left;
+    flex: 0 0 150px;
+    min-height: 126px;
+    padding: 14px;
     border-radius: 10px;
     background: #fffaf2;
     box-shadow: 0 6px 16px rgba(35, 40, 48, 0.06);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.balance-card:not(#new-account):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(35, 40, 48, 0.1);
+}
+
+.account-card-mark {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 8px;
+    background: #e7edf5;
+    color: #172b4d;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .bal {
@@ -16,14 +37,16 @@
 }
 
 .name {
-    margin: 0;
+    margin: 12px 0 0;
     color: #6b7280;
     font-size: 16px;
     font-weight: bold;
 }
 
 #new-account { background: #f06445; }
+#new-account { border-color: #f06445; }
 #new-account > p { color: #fffaf2; }
+#new-account .account-card-mark { background: rgba(255, 255, 255, 0.18); color: #fffaf2; }
 
 .balance-list {
     display: flex;

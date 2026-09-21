@@ -29,10 +29,37 @@
     box-shadow: 0 14px 28px rgba(23, 43, 77, 0.18);
 }
 
+.asset-card-copy { min-width: 0; }
 .asset-card h3 { margin: 0; font-size: 1rem; font-weight: 600; }
 
 .asset-card p {
     margin: 0;
     font-size: 26px;
     font-weight: 700;
+}
+
+.asset-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.balance-visibility-button {
+    padding: 6px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 6px;
+    background: transparent;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.balance-visibility-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 480px) {
+    .asset-card { padding: 20px; }
+    .asset-card-actions { gap: 8px; }
+    .asset-card p { font-size: 22px; }
 }

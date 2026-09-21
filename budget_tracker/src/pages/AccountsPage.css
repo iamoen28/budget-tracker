@@ -1,0 +1,14 @@
+.simple-page-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 100vh; }
+.simple-page-layout .nav-panel { grid-column: 1; grid-row: 1; position: sticky; top: 0; align-self: start; height: 100vh; background: #172b4d; }
+.simple-page { min-width: 0; }
+.simple-page-content { padding: 32px; }
+.currency-control { display: flex; align-items: center; gap: 8px; color: #6b7280; font-weight: 700; }
+.currency-control select { min-height: 40px; padding: 8px 12px; border: 1px solid #e7e1d8; border-radius: 7px; background: #fffaf2; color: #1f2933; }
+.account-page-card h2 { margin-top: 0; }
+.account-management { display: grid; gap: 8px; margin-top: 24px; }
+.account-management-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 10px; padding: 10px; border-top: 1px solid #e7e1d8; }
+.account-management-row span { color: #6b7280; font-size: .9rem; }
+.account-management-row input { min-height: 36px; min-width: 0; padding: 6px 8px; border: 1px solid #e7e1d8; border-radius: 6px; }
+.delete-account-button { border: 0; background: transparent; color: #c2412d; font-weight: 700; }
+.account-message { color: #c2412d; font-size: .9rem; }
+@media (max-width: 760px) { .simple-page-layout { display: block; } .simple-page-layout .nav-panel { position: static; height: auto; background: transparent; } .simple-page-content { padding: 16px; } .account-management-row { grid-template-columns: 1fr auto; } .account-management-row span { grid-column: 1 / -1; } }

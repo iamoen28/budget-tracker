@@ -5,12 +5,13 @@ import './BalanceCard.css'
 
 
 
-const BalanceCard = ({ currency, balance, name }) => {
+const BalanceCard = ({ currency, balance, name, onClick }) => {
   return (
-    <div className="balance-card" onClick={() => console.log({ balance, name })}>
+    <button className="balance-card" type="button" onClick={onClick} aria-label={`View ${name} transactions`}>
+      <div className="account-card-mark" aria-hidden="true">$</div>
       <p className='name'>{name}</p>
       <p className='bal'>{currency}{balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-    </div>
+    </button>
   )
 }
 
