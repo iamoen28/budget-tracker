@@ -1,0 +1,39 @@
+
+.navbar {
+    min-height: 100vh;
+    padding: 28px 16px;
+    background-color: #172b4d;
+    color: white;
+}
+
+.navbar ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navbar ul li {
+    margin: 15px 0;
+}
+
+.navbar ul li a {
+    margin-bottom: 6px;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.navbar ul li a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 760px) {
+    .navbar { min-height: auto; padding: 8px 16px; }
+    .navbar ul { display: flex; gap: 4px; overflow-x: auto; }
+    .navbar ul li { margin: 0; }
+    .navbar ul li a { margin-bottom: 0; white-space: nowrap; }
+}

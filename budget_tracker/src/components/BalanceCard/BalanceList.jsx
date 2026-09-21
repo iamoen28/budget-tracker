@@ -1,11 +1,11 @@
 //shows the balance of each account type and the total balance. It will be a card that is displayed on the budget overview page. It will take in the balance as a prop and display it in a nice format.
 import BalanceCard from './BalanceCard.jsx'
-import Card from '../Card/Card.jsx'
 
 
-const BalanceList = ({ currency, balances }) => {
+const BalanceList = ({ currency, balances, children }) => {
   return (
-    <div className="balance-list">
+    <div className="balance-list"> 
+    {children}
       {balances.map((account, index) => (
         <BalanceCard
           key={index}
@@ -14,6 +14,7 @@ const BalanceList = ({ currency, balances }) => {
           name={account.name}
         />
       ))}
+        
     </div>
   )
 }

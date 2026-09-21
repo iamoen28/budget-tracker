@@ -1,28 +1,38 @@
-/*Header Style*/
-.header {  
-  background-color: #1E104E;
-  color: white;
-  padding: 20px;
-  text-align: center;
+.header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid #e7e1d8;
+    background: #fffaf2;
+    color: #1f2933;
+    text-align: left;
 }
 
-/*design the asset card with the objects inside is displayed horizontally and the font of the amount is large and bold */
+.header h1 {
+    margin: 0;
+    color: #172b4d;
+    font-family: Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.header p {
+    margin: 6px 0 0;
+    color: #6b7280;
+}
+
 .asset-card {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-
-
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    justify-content: space-between;
+    padding: 24px 28px;
+    border-radius: 12px;
+    background: #172b4d;
+    color: white;
+    box-shadow: 0 14px 28px rgba(23, 43, 77, 0.18);
 }
 
+.asset-card h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+
 .asset-card p {
-    font-size: 36px;
-    font-weight: lighter;
     margin: 0;
+    font-size: 26px;
+    font-weight: 700;
 }

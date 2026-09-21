@@ -10,7 +10,9 @@ import TransactionForm from '../components/features/transactions/components/Tran
 import Header from '../components/Header/Header';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
-
+import TransactionViewer from '../components/features/transactions/components/TransactionViewer';
+import './Home.css'
+import Navbar from '../components/Navbar/Navbar';
 
 
 function Home() {
@@ -95,71 +97,88 @@ function Home() {
 
 
   return (
-    <div className="Home">  
-      <Header />  
+    <div className="Home"> 
+    
+      <div className="nav-panel">
+        <Navbar />
+      </div>
 
-      <section className="card">
-        <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} /> {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/} 
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2>Add Transaction</h2>
-          <TransactionForm onAdd={handleAddTransaction} categories={transactiontype} accountTypes={accountTypes} />
-           
-        </Modal>
-        
-        <Button onClick={() => setIsModalOpen(true)}>
-          Add Transaction
-        </Button>
-      </section>
+      <div className="welcome-header">
+            <Header />
+      </div>
       
-      <section className="card" id = "overview">
-        <h2>Accounts</h2>
-        <BalanceList currency={currency} balances={(account)} />
-        <Modal isOpen={isaddaccountmodalopen} onClose={() => setIsAddAccountModalOpen(false)}>
-          <h2>Add Account</h2>
-          
-          <input type="text" placeholder="Account Name" />
-          <input type="number" placeholder="Initial Balance" />
-          <Button onClick={() => 
-            //add account to the account state, get the values from the input fields, and close the modal
-              {
-                const accountName = document.querySelector('.modal input[type="text"]').value
-                const initialBalance = parseFloat(document.querySelector('.modal input[type="number"]').value)
-                setAccounts(prev => [...prev, { name: accountName, balance: initialBalance }])
-                setIsAddAccountModalOpen(false)
-              }
-            }>Add Account
+      <div className="asset-panel">
+        <section className="card">
+          <AssetCard currency={currency} balance={account.reduce((total, account) => total + account.balance, 0)} > {/*calculate the total balance by summing up the balances of all accounts and pass it as a prop to the AssetCard component*/} 
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+              <h2>Add Transaction</h2>
+              <TransactionForm onAdd={handleAddTransaction} categories={transactiontype} accountTypes={accountTypes} />
+              
+            </Modal>
             
-            </Button> 
-           
-        </Modal>
+            <Button onClick={() => setIsModalOpen(true)}>
+              +
+            </Button>
+          </AssetCard>
+        </section>
+      </div>
         
-        <Button onClick={() => setIsAddAccountModalOpen(true)}>
-          Add Account
-        </Button>
+      <div className="account-panel">
+        <section className="card" id = "overview">
+          <h2>Accounts</h2>
+          <BalanceList currency={currency} balances={(account)} >
+            <Modal isOpen={isaddaccountmodalopen} onClose={() => setIsAddAccountModalOpen(false)}>
+              <h2>Add Account</h2>
+              
+              <input type="text" placeholder="Account Name" />
+              <input type="number" placeholder="Initial Balance" />
+              <Button onClick={() => 
+                //add account to the account state, get the values from the input fields, and close the modal
+                  {
+                    const accountName = document.querySelector('.modal input[type="text"]').value
+                    const initialBalance = parseFloat(document.querySelector('.modal input[type="number"]').value)
+                    setAccounts(prev => [...prev, { name: accountName, balance: initialBalance }])
+                    setIsAddAccountModalOpen(false)
+                  }
+                }>Add Account
+                
+                </Button> 
+              
+            </Modal>
+            <div id = 'new-account' className='balance-card' onClick={() => setIsAddAccountModalOpen(true)}>
+              <p className='name'>Add new</p>
+              <p className='bal'>Account</p>
+            </div>
+          </BalanceList>
+        </section>
+      </div>
         
-      </section>
-      
-      <section className="card">
-        <h2>Recent Transactions</h2>
-        <button onClick={() => console.log('View Transaction History button clicked')}>
-          View Transaction History
-        </button>
+        
+      <div className="insights-panel">
+        <section className="card">
+          <h2>Budget Insights</h2>
+          <p>You have a positive balance. Keep it up!</p>
+        </section>
+      </div>
 
+        <div className='transaction-history'>
+          <section className="card">
+            <h2>Recent Transactions</h2>
+            <button onClick={() => console.log('View Transaction History button clicked')}>
+              View Transaction History
+            </button>
 
-        <p>For the past 2 days</p>
+            {/* check if there are transactions in the transaction data state, if there are, render the transaction list component for each transaction, if not, render a message saying there are no transactions yet. */}
+            {transactiondata.length === 0 ? (
+              <p>No transactions yet. Start adding some!</p>
+            ) : (
+              <TransactionsList transactions={transactiondata} currency={currency}/>
+            )}
+          </section>
+        </div>
+       
+      </div>
 
-        {/* check if there are transactions in the transaction data state, if there are, render the transaction list component for each transaction, if not, render a message saying there are no transactions yet. */}
-        {transactiondata.length > 0 && (
-        <TransactionsList transactions={transactiondata} />
-        )} 
-      </section>
-
-      <section className="card">
-        <h2>Budget Insights</h2>
-        <p>You have a positive balance. Keep it up!</p>
-      </section>
-
-    </div>
   )
 }
 

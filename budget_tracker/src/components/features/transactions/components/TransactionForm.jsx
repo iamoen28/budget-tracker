@@ -1,5 +1,6 @@
 //this is the component for the form that will be used to add transactions
 import { useState } from 'react'
+import Button from '../../../Button/Button';
 
 
 
@@ -67,7 +68,7 @@ const TransactionForm = ({ onAdd, categories, accountTypes }) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
         />
-        <button type="submit">Add Transaction</button>
+        <Button type="submit">Add Transaction</Button>
       </form>
   )
 }

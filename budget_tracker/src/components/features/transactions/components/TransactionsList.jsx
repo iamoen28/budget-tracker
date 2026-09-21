@@ -2,10 +2,11 @@
 import React from 'react'
 import TransactionList from './TransactionCard.jsx'
 
+
 //attach a click handler
 
 
-const TransactionsList = ({ transactions }) => {
+const TransactionsList = ({ transactions, currency }) => {
 
   return (
     <div className="transactions-list">
@@ -20,6 +21,7 @@ const TransactionsList = ({ transactions }) => {
           accountType={transaction.accountType}
           amount={transaction.amount}
           description={transaction.description}
+          currency={currency}
         />
       ))}
     </div>

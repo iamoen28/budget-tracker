@@ -1,13 +1,33 @@
-/*balance card styling*/
-/*make it horizontally inline and scrollable*/
 .balance-card {
-    display: inline-block;
-    width: 200px;
-    margin-right: 20px;
-    padding: 10px;
+    flex: 0 0 150px;
+    min-height: 104px;
+    padding: 16px;
+    border: 1px solid #e7e1d8;
+    border-radius: 10px;
+    background: #fffaf2;
+    box-shadow: 0 6px 16px rgba(35, 40, 48, 0.06);
 }
 
 .bal {
-    font-size: 24px;
-    color: #333;
+    margin: 8px 0 0;
+    color: #172b4d;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.name {
+    margin: 0;
+    color: #6b7280;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#new-account { background: #f06445; }
+#new-account > p { color: #fffaf2; }
+
+.balance-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
 }

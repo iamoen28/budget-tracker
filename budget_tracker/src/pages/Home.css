@@ -1,0 +1,70 @@
+.Home {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1.35fr) minmax(280px, 0.85fr);
+    grid-template-rows: auto auto auto auto;
+    min-height: 100vh;
+    gap: 0;
+}
+
+.nav-panel {
+    grid-column: 1;
+    grid-row: 1 / 5;
+    width: 100%;
+    background: #172b4d;
+}
+
+.welcome-header,
+.asset-panel,
+.transaction-history {
+    grid-column: 2 / 4;
+    width: 100%;
+    padding-right: 32px;
+    padding-left: 32px;
+}
+
+.account-panel,
+.insights-panel {
+    width: 100%;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.asset-panel { padding-top: 28px; }
+.account-panel, .insights-panel { padding-top: 4px; }
+.transaction-history { padding-top: 4px; padding-bottom: 32px; }
+
+.account-panel { grid-column: 2; }
+.insights-panel { grid-column: 3; }
+
+.asset-panel > .card {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.transaction-history > .card > button {
+    border: 0;
+    color: #f06445;
+    background: transparent;
+    font-weight: 700;
+}
+
+@media (max-width: 760px) {
+    .Home { display: block; }
+    .nav-panel { min-height: auto; }
+    .welcome-header,
+    .asset-panel,
+    .account-panel,
+    .insights-panel,
+    .transaction-history {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+    .account-panel,
+    .insights-panel {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+    .asset-panel { padding-top: 16px; }
+}
