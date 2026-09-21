@@ -1,4 +1,38 @@
-# React + Vite
+# Budget Tracker
+
+A personal budget tracker built with React and Vite.
+
+## Features
+
+- Income, expenses, transfers, and transfer fees
+- Accounts with balance history
+- Monthly budgets and savings goals
+- Dashboard summaries and Insights
+- Custom income and expense categories
+- Excel backup and restore
+- Browser-local persistence
+
+## Local development
+
+```powershell
+npm install
+npm run dev
+```
+
+Build and preview the production bundle locally:
+
+```powershell
+npm run build
+npm run preview
+```
+
+## Privacy
+
+The app stores budget data in the browser's `localStorage`. It does not send financial data to a server. Data is isolated to the browser and device where it was entered.
+
+Excel backups are downloaded locally and are ignored by Git through `.gitignore`. Do not commit exported backups, `.env` files, credentials, or private personal data.
+
+If deployed to GitHub Pages, the application code is public. Never put API keys, passwords, private tokens, or backend credentials in frontend source code because they would be visible to anyone who downloads the site.# React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
