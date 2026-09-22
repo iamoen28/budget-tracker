@@ -5,12 +5,14 @@ import AccountsPage from './pages/AccountsPage.jsx'
 import InsightsPage from './pages/InsightsPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
 import useBudgetData from './hooks/useBudgetData.js'
+import AuthPage from './pages/AuthPage.jsx'
+import { useAuth } from './auth/useAuth.js'
 
-const App = () => {
+function AuthenticatedApp({ user }) {
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
   const routeFromPath = pathname => pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname
   const [location, setLocation] = useState(`${routeFromPath(window.location.pathname)}${window.location.search}`)
-  const budget = useBudgetData()
+  const budget = useBudgetData(user.id)
   const navigate = nextPath => {
     window.history.pushState({}, '', `${basePath}${nextPath}`)
     setLocation(nextPath)
@@ -33,6 +35,11 @@ const App = () => {
       )}
     </div>
   )
+}
+
+const App = () => {
+  const { user } = useAuth()
+  return user ? <AuthenticatedApp key={user.id} user={user} /> : <AuthPage />
 }
 
 export default App

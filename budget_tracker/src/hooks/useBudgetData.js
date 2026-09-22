@@ -17,13 +17,13 @@ const initialAccounts = [
   { id: createId(), name: 'Investments', openingBalance: 2000 }
 ]
 
-const loadStoredData = () => {
+const loadStoredData = userId => {
   if (typeof window === 'undefined') return null
-  return loadBudgetData(window.localStorage)
+  return loadBudgetData(window.localStorage, userId)
 }
 
-export default function useBudgetData() {
-  const [storedData] = useState(loadStoredData)
+export default function useBudgetData(userId) {
+  const [storedData] = useState(() => loadStoredData(userId))
   const [accounts, setAccounts] = useState(() => storedData?.accounts ?? initialAccounts)
   const [transactions, setTransactions] = useState(() => storedData?.transactions ?? [])
   const [currency, setCurrency] = useState(() => storedData?.currency ?? 'PHP')
@@ -35,8 +35,10 @@ export default function useBudgetData() {
   const [goals, setGoals] = useState(() => storedData?.goals ?? [])
 
   useEffect(() => {
-    saveBudgetData(window.localStorage, { accounts, transactions, currency, categories, budgets, goals })
-  }, [accounts, transactions, currency, categories, budgets, goals])
+    if (userId) {
+      saveBudgetData(window.localStorage, { accounts, transactions, currency, categories, budgets, goals }, userId)
+    }
+  }, [accounts, transactions, currency, categories, budgets, goals, userId])
 
   const accountsWithBalances = useMemo(
     () => calculateBalances(accounts, transactions),

@@ -32,9 +32,16 @@
     background: rgba(255, 255, 255, 0.12);
 }
 
+.nav-user { margin-top: 28px !important; padding: 10px; border-top: 1px solid rgba(255, 255, 255, .16); }
+.nav-user span { display: block; overflow: hidden; color: rgba(255, 255, 255, .7); font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.nav-user button { margin-top: 8px; border: 0; padding: 0; background: transparent; color: #fdb5a3; font-weight: 700; }
+
 @media (max-width: 760px) {
     .navbar { height: auto; min-height: auto; padding: 8px 16px; }
     .navbar ul { display: flex; gap: 4px; overflow-x: auto; }
     .navbar ul li { margin: 0; }
     .navbar ul li a { margin-bottom: 0; white-space: nowrap; }
+    .nav-user { display: flex; align-items: center; gap: 8px; margin: 0 !important; padding: 0 0 0 8px; border-top: 0; }
+    .nav-user span { display: none; }
+    .nav-user button { margin: 0; white-space: nowrap; }
 }

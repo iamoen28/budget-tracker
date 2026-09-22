@@ -11,6 +11,7 @@ A personal budget tracker built with React and Vite.
 - Custom income and expense categories
 - Excel backup and restore
 - Browser-local persistence
+- Sign in, sign up, and sign out boundary ready for a hosted auth provider
 
 ## Local development
 
@@ -29,6 +30,8 @@ npm run preview
 ## Privacy
 
 The app stores budget data in the browser's `localStorage`. It does not send financial data to a server. Data is isolated to the browser and device where it was entered.
+
+Authentication currently uses a local development adapter so the app can be designed and tested before Supabase is connected. This is not production authentication: local browser storage can be cleared or inspected by the device owner. The adapter boundary is in `src/auth/authStorage.js`; replace it with Supabase Auth before sharing the app with multiple users.
 
 Excel backups are downloaded locally and are ignored by Git through `.gitignore`. Do not commit exported backups, `.env` files, credentials, or private personal data.
 
