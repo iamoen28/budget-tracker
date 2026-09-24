@@ -5,6 +5,10 @@ const authRoutes = require("./routes/auth");
 const authenticateToken = require("./middleware/auth");
 const accountRoutes = require("./routes/accounts");
 const transactionRoutes = require("./routes/transactions");
+const categoryRoutes = require("./routes/categories");
+const budgetRoutes = require("./routes/budgets");
+const goalRoutes = require("./routes/goals");
+
 require("dotenv").config();
 
 const app = express();
@@ -22,6 +26,11 @@ app.use("/api/accounts", accountRoutes);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/budgets", budgetRoutes);
+app.use("/api/goals", goalRoutes);
+
+
 app.get("/api/auth/me", authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
