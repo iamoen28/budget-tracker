@@ -34,3 +34,8 @@ dist-ssr
 *.xlsx
 *.csv
 *.json.backup
+
+.env
+backend/.env
+node_modules/
+backend/node_modules/
